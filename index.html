@@ -4,28 +4,31 @@
     <meta charset="UTF-8">
     <title>Screen Saver</title>
     <style>
-        html{
+        html {
             padding: 0;
             margin: 0;
         }
-        body{
-            position:relative;
+
+        body {
+            position: relative;
         }
-        img{
+
+        img {
             position: absolute;
             opacity: 1;
             transition: opacity .5s;
             max-width: 400px;
             height: auto;
         }
-        img.fade-out{
+
+        img.fade-out {
             opacity: 0;
             transition: opacity .5s;
         }
     </style>
 </head>
 <body>
-<img id="screen-saver-image" />
+<img id="screen-saver-image"/>
 
 
 <script>
@@ -47,17 +50,13 @@
     const windowHeight = window.innerHeight;
     const windowWidth = window.innerWidth;
 
-
-
-    function screenSaver(delayScreenSaver, imageDelay, imagesList){
+    function screenSaver(delayScreenSaver, imageDelay, imagesList) {
         let secondsSinceLastActivity = 0;
 
+        let screenActivity = setInterval(() => {
 
-       let screenActivity =  setInterval( () => {
-           console.log(secondsSinceLastActivity);
-
-           secondsSinceLastActivity++;
-            if(secondsSinceLastActivity === delayScreenSaver){
+            secondsSinceLastActivity++;
+            if (secondsSinceLastActivity === delayScreenSaver) {
                 addImage();
             }
         }, 1000);
@@ -65,7 +64,7 @@
         function addImage() {
             let imageHeight, imageWidth, availSpaceW, availSpaceH, randNumW, randNumH;
 
-            let imageInterval = setInterval( () => {
+            let imageInterval = setInterval(() => {
                 let randomImage = Math.floor(Math.random() * imagesList.length);
 
                 elmImage.src = imagesList[randomImage];
@@ -83,20 +82,21 @@
                 elmImage.style.top = randNumW + "px";
                 elmImage.style.left = randNumH + "px";
 
-                setTimeout( () => {
+                setTimeout(() => {
                     elmImage.classList.add('fade-out');
-                }, (imageDelay * 1000) - 1000 )
-
+                }, (imageDelay * 1000) - 1000)
 
 
             }, imageDelay * 1000);
 
         }
 
-        function activity(){
+        function activity() {
             secondsSinceLastActivity = 0;
             elmImage.classList.add('fade-out');
-            elmImage.src = '';
+            setTimeout(() => {
+                elmImage.src = '';
+            }, 400)
 
         }
 
@@ -105,14 +105,14 @@
             'scroll', 'touchstart'
         ];
 
-        activityEvents.forEach( (eventName) => {
+        activityEvents.forEach((eventName) => {
             document.addEventListener(eventName, activity, true);
         });
 
 
     }
 
-    screenSaver(delayScreenSaver, imageDelay, imagesList );
+    screenSaver(delayScreenSaver, imageDelay, imagesList);
 </script>
 </body>
 </html>
