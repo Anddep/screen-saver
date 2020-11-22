@@ -53,8 +53,10 @@
         let secondsSinceLastActivity = 0;
 
 
-        setInterval( () => {
-            secondsSinceLastActivity++;
+       let screenActivity =  setInterval( () => {
+           console.log(secondsSinceLastActivity);
+
+           secondsSinceLastActivity++;
             if(secondsSinceLastActivity === delayScreenSaver){
                 addImage();
             }
@@ -63,17 +65,14 @@
         function addImage() {
             let imageHeight, imageWidth, availSpaceW, availSpaceH, randNumW, randNumH;
 
-            setInterval( () => {
+            let imageInterval = setInterval( () => {
                 let randomImage = Math.floor(Math.random() * imagesList.length);
+
                 elmImage.src = imagesList[randomImage];
                 elmImage.classList.remove('fade-out');
+
                 imageHeight = elmImage.clientHeight;
                 imageWidth = elmImage.clientWidth;
-
-                console.log(imageHeight);
-                console.log(imageWidth);
-                console.log('------');
-
 
                 availSpaceW = windowHeight - imageHeight;
                 availSpaceH = windowWidth - imageWidth;
@@ -81,14 +80,14 @@
                 randNumW = Math.round(Math.random() * availSpaceW);
                 randNumH = Math.round(Math.random() * availSpaceH);
 
-
                 elmImage.style.top = randNumW + "px";
                 elmImage.style.left = randNumH + "px";
 
                 setTimeout( () => {
                     elmImage.classList.add('fade-out');
-
                 }, (imageDelay * 1000) - 1000 )
+
+
 
             }, imageDelay * 1000);
 
@@ -96,6 +95,9 @@
 
         function activity(){
             secondsSinceLastActivity = 0;
+            elmImage.classList.add('fade-out');
+            elmImage.src = '';
+
         }
 
         const activityEvents = [
